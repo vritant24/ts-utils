@@ -2,7 +2,14 @@
   "name": "@vritant24/cancellation",
   "version": "0.0.1",
   "main": "./artifacts/dist/index.js",
-  "types": "./artifacts/dist/types/index.d.ts",
+  "types": "src/notSupported.d.ts",
+  "typesVersions": {
+    ">=5.2": {
+      "*": [
+        "./artifacts/dist/types/index.d.ts"
+      ]
+    }
+  },
   "license": "MIT",
   "files": [
     "artifacts/dist",
@@ -13,10 +20,11 @@
     "build": "esbuild ./src/* --outdir=./artifacts/out --sourcemap",
     "watch": "esbuild ./src/* --outdir=./artifacts/out --sourcemap --watch",
     "compile": "rimraf ./artifacts/dist && esbuild ./src/index.ts --bundle --outdir=./artifacts/dist --minify",
-    "declaration": "tsc -p ./tsconfig.json",
+    "declaration": "tsc -p ./tsconfig.publish.json",
     "prepack": "npm run clean && npm run compile && npm run declaration"
   },
   "dependencies": {
+    "typescript": "^5.2.0-beta",
     "eventemitter3": "^5.0.1"
   }
 }
