@@ -9,5 +9,8 @@
     "esbuild": "^0.18.19",
     "rimraf": "^5.0.1",
     "typescript": "^5.2.0-beta"
+  },
+  "devDependencies": {
+    "vitest": "^0.34.1"
   }
 }
