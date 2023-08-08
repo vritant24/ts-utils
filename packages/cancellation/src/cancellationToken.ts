@@ -43,7 +43,7 @@ export class CancellationTokenImpl implements CancellationToken {
     }
 
     public cancel(): void {
-        if (!this.isCancellationRequested) {
+        if (!this._isCancellationRequested) {
             this._isCancellationRequested = true;
             this._cancellationRequestedEmitter.emit('cancelled');
         }
