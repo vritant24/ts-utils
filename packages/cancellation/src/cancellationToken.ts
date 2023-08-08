@@ -66,3 +66,10 @@ export class CancellationTokenImpl implements CancellationToken {
         }
     }
 }
+
+export const CancellationTokenNone: CancellationToken = {
+    isCancellationRequested: () => false,
+    throwIfCancellationRequested: () => {},
+    onCancellationRequested: () => ({ [Symbol.dispose]: () => {} }),
+    [Symbol.dispose]: () => {}
+};
