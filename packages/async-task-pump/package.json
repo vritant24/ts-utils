@@ -1,5 +1,5 @@
 {
-  "name": "@vritant24/async-task-queue",
+  "name": "@vritant24/async-task-pump",
   "version": "0.0.1",
   "main": "./artifacts/dist/index.js",
   "types": "./artifacts/dist/types/",
