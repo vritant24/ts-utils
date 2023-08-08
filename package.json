@@ -1,0 +1,13 @@
+{
+  "name": "ts-utils",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "esbuild": "^0.18.19",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.2.0-beta"
+  }
+}
