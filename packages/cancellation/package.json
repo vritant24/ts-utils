@@ -13,7 +13,7 @@
     "build": "esbuild ./src/* --outdir=./artifacts/out --sourcemap",
     "watch": "esbuild ./src/* --outdir=./artifacts/out --sourcemap --watch",
     "compile": "rimraf ./artifacts/dist && esbuild ./src/index.ts --bundle --outdir=./artifacts/dist --minify",
-    "declaration": "rimraf ./artifacts/dist/types && tsc -p ./tsconfig.json --declarationDir ./artifacts/dist/types",
+    "declaration": "tsc -p ./tsconfig.json",
     "prepack": "npm run clean && npm run compile && npm run declaration"
   },
   "dependencies": {
