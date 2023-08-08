@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { CancellationTokenImpl } from "./cancellationToken";
+import { CancellationTokenImpl, CancellationTokenNone } from "./cancellationToken";
 import { ObjectDisposedException } from "./objectDisposedException";
 import { OperationCanceledException } from "typescript";
 
@@ -78,5 +78,11 @@ describe("cancellationTokenImpl", async () => {
         cancellationToken.cancel();
         expect(listener).not.toBeCalled();
     });
+});
 
+describe("cancellationTokenNone", async () => {
+    it("should be a no op token", async () => {
+        expect(CancellationTokenNone.isCancellationRequested()).toBe(false);
+        expect(() => CancellationTokenNone.throwIfCancellationRequested()).not.toThrow();
+    });
 });
