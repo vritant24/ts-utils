@@ -17,6 +17,10 @@ export class CancellationTokenSource implements Disposable {
         this._isDisposed = false;
     }
 
+    public get isCancellationRequested(): boolean {
+        return this._token.isCancellationRequested();
+    }
+
     /**
      * Gets a cancellation token that is cancelled when this source is cancelled.
      * @throws ObjectDisposedException if this source is disposed.
