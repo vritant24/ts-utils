@@ -16,7 +16,7 @@
     // "declarationMap": true,                           /* Create sourcemaps for d.ts files. */
     "emitDeclarationOnly": true,                         /* Only output d.ts files and not JavaScript files. */
     "sourceMap": true,                                   /* Create source map files for emitted JavaScript files. */
-    "sourceRoot": "./artifacts/dist",                    /* Specify the root path for debuggers to find the reference source code. */
+    "sourceRoot": "./artifacts/dist/lib",                    /* Specify the root path for debuggers to find the reference source code. */
     "mapRoot": "./artifacts/dist/types",                 /* Specify the location where debugger should locate map files instead of generated locations. */
     "noEmitOnError": true,                               /* Disable emitting files if any type checking errors are reported. */
     "declarationDir": "./artifacts/dist/types",          /* Specify the output directory for generated declaration files. */
