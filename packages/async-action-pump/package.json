@@ -3,6 +3,13 @@
   "author": {
     "name": "Vritant Bhardwaj"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vritant24/ts-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/vritant24/ts-utils"
+  },
   "version": "0.0.1",
   "main": "./artifacts/dist/lib/index.js",
   "types": "src/notSupported.d.ts",
