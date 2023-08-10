@@ -1,6 +1,7 @@
 {
   "name": "@vritant24/cancellation",
   "version": "0.0.1",
+  "description": "A cancellation library for typescript",
   "author": {
     "name": "Vritant Bhardwaj"
   },
