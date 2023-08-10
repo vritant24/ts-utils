@@ -1,5 +1,5 @@
 export class ObjectDisposedException extends Error {
-    constructor() {
-        super('Object is disposed');
+    constructor(objectName: string) {
+        super(`${objectName} is disposed`);
     }
 }

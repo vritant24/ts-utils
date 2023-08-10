@@ -27,7 +27,7 @@ export class CancellationTokenSource implements Disposable {
      */
     public get token(): CancellationToken {
         if (this._isDisposed) {
-            throw new ObjectDisposedException();
+            throw new ObjectDisposedException("CancellationTokenSource");
         }
         return this._token;
     }
@@ -38,7 +38,7 @@ export class CancellationTokenSource implements Disposable {
      */
     public cancel(): void {
         if (this._isDisposed) {
-            throw new ObjectDisposedException();
+            throw new ObjectDisposedException("CancellationTokenSource");
         }
         this._token.cancel();
     }

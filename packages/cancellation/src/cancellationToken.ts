@@ -51,7 +51,7 @@ export class CancellationTokenImpl implements CancellationToken {
 
     public onCancellationRequested(listener: CancellationEventListener): Disposable {
         if (this._isDisposed) {
-            throw new ObjectDisposedException();
+            throw new ObjectDisposedException("CancellationToken");
         }
         const emitter = this._cancellationRequestedEmitter.on('cancelled', listener);
         return {
