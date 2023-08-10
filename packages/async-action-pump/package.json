@@ -1,0 +1,36 @@
+{
+  "name": "@vritant24/async-action-pump",
+  "author": {
+    "name": "Vritant Bhardwaj"
+  },
+  "version": "0.0.1",
+  "main": "./artifacts/dist/lib/index.js",
+  "types": "src/notSupported.d.ts",
+  "typesVersions": {
+    ">=5.2": {
+      "*": [
+        "./artifacts/dist/types/index.d.ts"
+      ]
+    }
+  },
+  "license": "MIT",
+  "files": [
+    "artifacts/dist/lib",
+    "./LICENSE"
+  ],
+  "scripts": {
+    "clean": "rimraf ./artifacts",
+    "build": "node ./scripts/build.js",
+    "watch": "node ./scripts/watch.js",
+    "declaration": "rimraf ./artifacts/dist/types && tsc -p ./tsconfig.publish.json",
+    "prepack": "npm run build && npm run declaration"
+  },
+  "dependencies": {
+    "@vritant24/cancellation": "^0.0.1",
+    "typescript": "^5.2.0-beta"
+  },
+  "devDependencies": {
+    "glob": "^10.3.3",
+    "jsdom": "^22.1.0"
+  }
+}

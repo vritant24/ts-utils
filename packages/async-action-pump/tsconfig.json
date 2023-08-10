@@ -4,7 +4,7 @@
 
     /* Language and Environment */
     "target": "es2022",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
-    // "lib": ["es2022", "esnext.disposable", "dom"],
+    "lib": ["es2022", "esnext.disposable", "dom"],
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
