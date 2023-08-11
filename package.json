@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "format": "npx prettier **/*.ts --write"
+    "format": "npx prettier --write \"**/*.*\""
   },
   "devDependencies": {
     "esbuild": "^0.18.19",

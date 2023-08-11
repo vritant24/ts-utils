@@ -31,7 +31,8 @@
     "build": "node ./scripts/build.js",
     "watch": "node ./scripts/watch.js",
     "declaration": "rimraf ./artifacts/dist/types && tsc -p ./tsconfig.publish.json",
-    "prepack": "npm run build && npm run declaration"
+    "prepack": "npm run build && npm run declaration",
+    "lint": "eslint --ext .ts"
   },
   "dependencies": {
     "@vritant24/cancellation": "^0.0.1",
