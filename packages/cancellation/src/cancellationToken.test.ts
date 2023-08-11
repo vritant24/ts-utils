@@ -1,36 +1,36 @@
-import { describe, expect, it, vi } from "vitest";
-import { CancellationTokenImpl, CancellationTokenNone } from "./cancellationToken";
-import { ObjectDisposedException } from "./objectDisposedException";
-import { OperationCanceledException } from "typescript";
+import { describe, expect, it, vi } from 'vitest';
+import { CancellationTokenImpl, CancellationTokenNone } from './cancellationToken';
+import { ObjectDisposedException } from './objectDisposedException';
+import { OperationCanceledException } from 'typescript';
 
-describe("cancellationTokenImpl", async () => {
-    it("should be able to cancel", async () => {
+describe('cancellationTokenImpl', async () => {
+    it('should be able to cancel', async () => {
         const cancellationToken = new CancellationTokenImpl();
         // This should not throw
         cancellationToken.cancel();
     });
 
-    it("should be able to check if cancellation is requested", async () => {
+    it('should be able to check if cancellation is requested', async () => {
         const cancellationToken = new CancellationTokenImpl();
         expect(cancellationToken.isCancellationRequested()).toBe(false);
         cancellationToken.cancel();
         expect(cancellationToken.isCancellationRequested()).toBe(true);
     });
 
-    it("should be able to throw if cancellation is requested", async () => {
+    it('should be able to throw if cancellation is requested', async () => {
         const cancellationToken = new CancellationTokenImpl();
         expect(() => cancellationToken.throwIfCancellationRequested()).not.toThrow();
         cancellationToken.cancel();
         expect(() => cancellationToken.throwIfCancellationRequested()).toThrowError(OperationCanceledException);
     });
 
-    it("should be able to register a cancellation listener", async () => {
+    it('should be able to register a cancellation listener', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener = vi.fn();
         cancellationToken.onCancellationRequested(listener);
     });
 
-    it("should be able to cancel and invoke a cancellation listener", async () => {
+    it('should be able to cancel and invoke a cancellation listener', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener = vi.fn();
         cancellationToken.onCancellationRequested(listener);
@@ -38,7 +38,7 @@ describe("cancellationTokenImpl", async () => {
         expect(listener).toBeCalledTimes(1);
     });
 
-    it("should be able to cancel and invoke multiple cancellation listeners", async () => {
+    it('should be able to cancel and invoke multiple cancellation listeners', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener1 = vi.fn();
         const listener2 = vi.fn();
@@ -49,7 +49,7 @@ describe("cancellationTokenImpl", async () => {
         expect(listener2).toBeCalledTimes(1);
     });
 
-    it("should not invoke listeners after they are disposed", async () => {
+    it('should not invoke listeners after they are disposed', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener = vi.fn();
         const disposable = cancellationToken.onCancellationRequested(listener);
@@ -58,7 +58,7 @@ describe("cancellationTokenImpl", async () => {
         expect(listener).not.toBeCalled();
     });
 
-    it("should be able to dispose", () => {
+    it('should be able to dispose', () => {
         const cancellationToken = new CancellationTokenImpl();
         cancellationToken[Symbol.dispose]();
     });
@@ -80,8 +80,8 @@ describe("cancellationTokenImpl", async () => {
     });
 });
 
-describe("cancellationTokenNone", async () => {
-    it("should be a no op token", async () => {
+describe('cancellationTokenNone', async () => {
+    it('should be a no op token', async () => {
         expect(CancellationTokenNone.isCancellationRequested()).toBe(false);
         expect(() => CancellationTokenNone.throwIfCancellationRequested()).not.toThrow();
     });

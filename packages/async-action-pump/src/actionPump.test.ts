@@ -1,187 +1,179 @@
-import { describe, expect, it } from "vitest";
-import { ErrorHandler } from "./types";
-import { ActionPump } from "./actionPump";
+import { describe, expect, it } from 'vitest';
+import { ErrorHandler } from './types';
+import { ActionPump } from './actionPump';
 
 function noOpErrorHandler() {
-  return;
+    return;
 }
 
 function createCompletionTracker(): [Promise<void>, () => void] {
-  let completionResolver: (() => void) | undefined = undefined;
+    let completionResolver: (() => void) | undefined = undefined;
 
-  const completionPromise = new Promise<void>((resolve) => {
-    completionResolver = resolve;
-  });
+    const completionPromise = new Promise<void>((resolve) => {
+        completionResolver = resolve;
+    });
 
-  return [completionPromise, completionResolver!];
+    return [completionPromise, completionResolver!];
 }
 
 function createActionPump<T>(errorHandler?: ErrorHandler) {
-  return ActionPump.create<T>({
-    errorHandler: errorHandler?? noOpErrorHandler,
-  });
+    return ActionPump.create<T>({
+        errorHandler: errorHandler ?? noOpErrorHandler,
+    });
 }
 
-describe("Async Action Pump", () => {
-  it("should run queued async action", async () => {
-    const pump = createActionPump();
-    let check = 1;
+describe('Async Action Pump', () => {
+    it('should run queued async action', async () => {
+        const pump = createActionPump();
+        let check = 1;
 
-    pump.post(
-      () => {
-        check = 2
-      });
-
-    await pump.waitForAllActions();
-    expect(check);
-  });
-
-  it("should run queued async actions in order", async () => {
-    const pump = createActionPump();
-    const arr: number[] = [];
-    const expectedArr: number[] = [];
-
-    for (let i = 0; i < 20; i++) {
-      expectedArr.push(i);
-      pump.post(
-        () => {
-          arr.push(i);
+        pump.post(() => {
+            check = 2;
         });
-    }
 
-    await pump.waitForAllActions();
-    expect(arr).to.eql(expectedArr);
-  });
-
-  it("should run return the queued async action values in order", async () => {
-    const pump = createActionPump<number>();
-    const arr: Promise<number>[] = [];
-    const expectedArr: number[] = [];
-
-    for (let i = 0; i < 20; i++) {
-      expectedArr.push(i);
-      arr.push(pump.postAsync(
-        () => i
-      ));
-    }
-    const actual = await Promise.all(arr);
-    expect(actual).to.eql(expectedArr);
-  });
-
-  it("should call errorHandler if async action throws", async () => {
-    const error = new Error("ERRRRROR!");
-    let errorReceived: unknown = "";
-    let handlerCalled = false;
-
-    const errorHandler = (e: unknown) => {
-      errorReceived = e;
-      handlerCalled = true;
-    };
-    const pump = createActionPump(errorHandler);
-
-    pump.post(() => {
-      throw error;
+        await pump.waitForAllActions();
+        expect(check);
     });
 
-    await pump.waitForAllActions();
+    it('should run queued async actions in order', async () => {
+        const pump = createActionPump();
+        const arr: number[] = [];
+        const expectedArr: number[] = [];
 
-    expect(handlerCalled).to.be.true;
-    expect(errorReceived).to.eql(error);
-  });
+        for (let i = 0; i < 20; i++) {
+            expectedArr.push(i);
+            pump.post(() => {
+                arr.push(i);
+            });
+        }
 
-  it("should call errorHandler if async action rejects", async () => {
-    const error = "ERRRRROR!";
-    let errorReceived: unknown = "";
-    let handlerCalled = false;
-
-    const errorHandler = (e: unknown) => {
-      errorReceived = e;
-      handlerCalled = true;
-    };
-    const pump = createActionPump(errorHandler);
-
-    pump.post(() => {
-      throw error;
+        await pump.waitForAllActions();
+        expect(arr).to.eql(expectedArr);
     });
 
-    await pump.waitForAllActions();
+    it('should run return the queued async action values in order', async () => {
+        const pump = createActionPump<number>();
+        const arr: Promise<number>[] = [];
+        const expectedArr: number[] = [];
 
-    expect(handlerCalled).to.be.true;
-    expect(errorReceived).to.eql(error);
-  });
-
-  it("should run async action after an async action that rejects", async () => {
-    const [p, r] = createCompletionTracker();
-
-    const error = "ERRRRROR!";
-    let errorReceived: unknown = "";
-    let handlerCalled = false;
-
-    const errorHandler = (e: unknown) => {
-      errorReceived = e;
-      handlerCalled = true;
-    };
-    const pump = createActionPump(errorHandler);
-
-    pump.post(
-      () => {
-        throw error
-      }
-    );
-
-    pump.post(() => {
-      r();
+        for (let i = 0; i < 20; i++) {
+            expectedArr.push(i);
+            arr.push(pump.postAsync(() => i));
+        }
+        const actual = await Promise.all(arr);
+        expect(actual).to.eql(expectedArr);
     });
 
-    await p;
-    expect(handlerCalled).to.be.true;
-    expect(errorReceived).to.eql(error);
-  });
+    it('should call errorHandler if async action throws', async () => {
+        const error = new Error('ERRRRROR!');
+        let errorReceived: unknown = '';
+        let handlerCalled = false;
 
-  it("should run async action after an async action that throws", async () => {
-    const [p, r] = createCompletionTracker();
+        const errorHandler = (e: unknown) => {
+            errorReceived = e;
+            handlerCalled = true;
+        };
+        const pump = createActionPump(errorHandler);
 
-    const error = "ERRRRROR!";
-    let errorReceived: unknown = "";
-    let handlerCalled = false;
+        pump.post(() => {
+            throw error;
+        });
 
-    const errorHandler = (e: unknown) => {
-      errorReceived = e;
-      handlerCalled = true;
-    };
-    const pump = createActionPump(errorHandler);
+        await pump.waitForAllActions();
 
-    pump.post(
-      () =>{
-        throw error
-      }
-    );
-
-    pump.post(() => {
-      r();
+        expect(handlerCalled).to.be.true;
+        expect(errorReceived).to.eql(error);
     });
 
-    await p;
-    expect(handlerCalled).to.be.true;
-    expect(errorReceived).to.eql(error);
-  });
+    it('should call errorHandler if async action rejects', async () => {
+        const error = 'ERRRRROR!';
+        let errorReceived: unknown = '';
+        let handlerCalled = false;
 
-  it("should clean queue and throw on post when disposed", async () => {
-    const [p, r] = createCompletionTracker();
+        const errorHandler = (e: unknown) => {
+            errorReceived = e;
+            handlerCalled = true;
+        };
+        const pump = createActionPump(errorHandler);
 
-    const pump = createActionPump<void>(noOpErrorHandler) as ActionPump<void>;
+        pump.post(() => {
+            throw error;
+        });
 
-    pump.post(() => {
-      r();
+        await pump.waitForAllActions();
+
+        expect(handlerCalled).to.be.true;
+        expect(errorReceived).to.eql(error);
     });
 
-    pump.post(() => Promise.resolve());
-    expect(pump["_queue"]).to.have.length(1);
-    pump[Symbol.dispose]();
-    expect(pump["_queue"]).to.have.length(0);
+    it('should run async action after an async action that rejects', async () => {
+        const [p, r] = createCompletionTracker();
 
-    await p;
-    expect(() => pump.post(() => Promise.resolve())).to.throw();
-    await expect(() => pump.waitForAllActions()).toThrow();
-  });
+        const error = 'ERRRRROR!';
+        let errorReceived: unknown = '';
+        let handlerCalled = false;
+
+        const errorHandler = (e: unknown) => {
+            errorReceived = e;
+            handlerCalled = true;
+        };
+        const pump = createActionPump(errorHandler);
+
+        pump.post(() => {
+            throw error;
+        });
+
+        pump.post(() => {
+            r();
+        });
+
+        await p;
+        expect(handlerCalled).to.be.true;
+        expect(errorReceived).to.eql(error);
+    });
+
+    it('should run async action after an async action that throws', async () => {
+        const [p, r] = createCompletionTracker();
+
+        const error = 'ERRRRROR!';
+        let errorReceived: unknown = '';
+        let handlerCalled = false;
+
+        const errorHandler = (e: unknown) => {
+            errorReceived = e;
+            handlerCalled = true;
+        };
+        const pump = createActionPump(errorHandler);
+
+        pump.post(() => {
+            throw error;
+        });
+
+        pump.post(() => {
+            r();
+        });
+
+        await p;
+        expect(handlerCalled).to.be.true;
+        expect(errorReceived).to.eql(error);
+    });
+
+    it('should clean queue and throw on post when disposed', async () => {
+        const [p, r] = createCompletionTracker();
+
+        const pump = createActionPump<void>(noOpErrorHandler) as ActionPump<void>;
+
+        pump.post(() => {
+            r();
+        });
+
+        pump.post(() => Promise.resolve());
+        expect(pump['_queue']).to.have.length(1);
+        pump[Symbol.dispose]();
+        expect(pump['_queue']).to.have.length(0);
+
+        await p;
+        expect(() => pump.post(() => Promise.resolve())).to.throw();
+        await expect(() => pump.waitForAllActions()).toThrow();
+    });
 });

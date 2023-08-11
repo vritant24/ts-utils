@@ -1,5 +1,5 @@
-import { ObjectDisposedException } from "@vritant24/cancellation";
-import { ErrorHandler } from "./types";
+import { ObjectDisposedException } from '@vritant24/cancellation';
+import { ErrorHandler } from './types';
 
 export type Processor<T, U> = (item: T | undefined) => U;
 export type DequeueStrategy<QueueItemType, DequeueItemType> = (queue: QueueItemType[]) => DequeueItemType | undefined;
@@ -9,7 +9,7 @@ export type PumpOptions<QueueItemType, DequeueItemType> = {
     dequeueStrategy: DequeueStrategy<QueueItemType, DequeueItemType>;
     errorHandler: ErrorHandler;
     logger: (message: string) => void;
-}
+};
 
 export function defaultDequeueStrategy<T>(queue: T[]): T | undefined {
     return queue.shift();
@@ -40,7 +40,7 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
         this._logger = options.logger;
         this._objectName = options.objectName;
     }
-    
+
     protected abstract runProcessorAsync(item: DequeueItemType): Promise<void>;
 
     protected enqueue(item: QueueItemType): void {
@@ -71,7 +71,7 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
                     this._isActionRunning = false;
                     this.dequeue();
                     this._errorHandler(e);
-                }
+                },
             );
         } catch (e) {
             // If we arrive here, there is an error

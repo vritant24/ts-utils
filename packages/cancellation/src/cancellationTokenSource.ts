@@ -1,9 +1,9 @@
-import { CancellationToken, CancellationTokenImpl } from "./cancellationToken";
-import { ObjectDisposedException } from "./objectDisposedException";
+import { CancellationToken, CancellationTokenImpl } from './cancellationToken';
+import { ObjectDisposedException } from './objectDisposedException';
 
 /**
  * A source for cancellation tokens.
- * 
+ *
  * @remarks
  * This is single use only. Once cancelled, it cannot be reset.
  * This implements the Disposable pattern and so can be used with the `using` function.
@@ -41,7 +41,7 @@ export class CancellationTokenSource implements Disposable {
 
     private throwIfDisposed(): void {
         if (this._isDisposed) {
-            throw new ObjectDisposedException("CancellationTokenSource");
+            throw new ObjectDisposedException('CancellationTokenSource');
         }
     }
 
