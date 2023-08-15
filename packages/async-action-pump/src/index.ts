@@ -13,6 +13,5 @@ export type {
     AsyncAction,
     CancellableAsyncAction,
     Action,
-    ErrorHandler,
     Logger,
 } from './types';

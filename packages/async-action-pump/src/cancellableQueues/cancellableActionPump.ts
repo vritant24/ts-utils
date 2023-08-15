@@ -8,7 +8,7 @@ import {
     CancellableAsyncActionPumpOptions,
     ICancellableActionPump,
 } from '../types';
-import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from '../pumpBase';
+import { PumpBase, defaultDequeueStrategy, defaultLogger } from '../pumpBase';
 import {
     DefaultCancellationTokenSourceFactory,
     ICancellationTokenSourceFactory,
@@ -30,7 +30,6 @@ export class CancellableActionPump<T>
         super({
             objectName: 'AsyncActionPump',
             dequeueStrategy: defaultDequeueStrategy,
-            errorHandler: options?.errorHandler ?? defaultErrorHandler,
             logger: options?.logger ?? defaultLogger,
         });
         this.cancellationTokenSourceFactory =

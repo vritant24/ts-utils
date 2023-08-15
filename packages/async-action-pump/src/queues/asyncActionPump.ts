@@ -1,5 +1,5 @@
-import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from './pumpBase';
-import { AsyncAction, AsyncActionPumpOptions, IAsyncActionPump } from './types';
+import { PumpBase, defaultDequeueStrategy, defaultLogger } from '../pumpBase';
+import { AsyncAction, AsyncActionPumpOptions, IAsyncActionPump } from '../types';
 
 export class AsyncActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>> implements IAsyncActionPump<T> {
     public static create<T>(options?: AsyncActionPumpOptions): IAsyncActionPump<T> {
@@ -10,7 +10,6 @@ export class AsyncActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<
         super({
             objectName: 'AsyncActionPump',
             dequeueStrategy: defaultDequeueStrategy,
-            errorHandler: options?.errorHandler ?? defaultErrorHandler,
             logger: options?.logger ?? defaultLogger,
         });
     }

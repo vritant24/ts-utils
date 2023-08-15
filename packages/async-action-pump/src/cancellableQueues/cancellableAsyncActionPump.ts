@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { CancellationTokenSource, ICancellationToken } from '@vritant24/cancellation/';
-import { CancellableAsyncAction, CancellableAsyncActionPumpOptions, ICancellableAsyncActionPump } from './types';
-import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from './pumpBase';
+import { CancellableAsyncAction, CancellableAsyncActionPumpOptions, ICancellableAsyncActionPump } from '../types';
+import { PumpBase, defaultDequeueStrategy, defaultLogger } from '../pumpBase';
 import {
     DefaultCancellationTokenSourceFactory,
     ICancellationTokenSourceFactory,
@@ -25,7 +25,6 @@ export class CancellableAsyncActionPump<T>
         super({
             objectName: 'CancellableAsyncActionPump',
             dequeueStrategy: defaultDequeueStrategy,
-            errorHandler: options?.errorHandler ?? defaultErrorHandler,
             logger: options?.logger ?? defaultLogger,
         });
         this.cancellationTokenSourceFactory =

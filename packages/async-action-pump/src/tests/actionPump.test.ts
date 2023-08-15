@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ErrorHandler } from '../types';
+import { LogMessage, Logger } from '../types';
 import { ActionPump } from '../queues/actionPump';
-
-function noOpErrorHandler() {
-    return;
-}
 
 function createCompletionTracker(): [Promise<void>, () => void] {
     let completionResolver: (() => void) | undefined = undefined;
@@ -16,9 +12,9 @@ function createCompletionTracker(): [Promise<void>, () => void] {
     return [completionPromise, completionResolver!];
 }
 
-function createActionPump<T>(errorHandler?: ErrorHandler) {
+function createActionPump<T>(logger?: Logger) {
     return ActionPump.create<T>({
-        errorHandler: errorHandler ?? noOpErrorHandler,
+        logger,
     });
 }
 
@@ -69,9 +65,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createActionPump(errorHandler);
 
@@ -90,9 +88,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createActionPump(errorHandler);
 
@@ -113,9 +113,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createActionPump(errorHandler);
 
@@ -139,9 +141,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createActionPump(errorHandler);
 
@@ -161,7 +165,7 @@ describe('Async Action Pump', () => {
     it('should clean queue and throw on post when disposed', async () => {
         const [p, r] = createCompletionTracker();
 
-        const pump = createActionPump<void>(noOpErrorHandler) as ActionPump<void>;
+        const pump = createActionPump<void>() as ActionPump<void>;
 
         pump.post(() => {
             r();

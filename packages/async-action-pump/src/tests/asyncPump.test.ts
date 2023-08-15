@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { describe, expect, it } from 'vitest';
-import { ErrorHandler } from './types';
-import { AsyncActionPump } from './asyncActionPump';
+import { AsyncActionPump } from '../queues/asyncActionPump';
 import { createCompletionTracker } from './utilities/completionTracker';
+import { LogMessage, Logger } from '../types';
 
-function noOpErrorHandler() {
-    return;
-}
-
-function createAsyncActionPump<T>(errorHandler?: ErrorHandler) {
+function createAsyncActionPump<T>(logger?: Logger) {
     return AsyncActionPump.create<T>({
-        errorHandler: errorHandler ?? noOpErrorHandler,
+        logger,
     });
 }
 
@@ -76,9 +72,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createAsyncActionPump(errorHandler);
 
@@ -97,9 +95,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createAsyncActionPump(errorHandler);
 
@@ -118,9 +118,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createAsyncActionPump(errorHandler);
 
@@ -148,9 +150,11 @@ describe('Async Action Pump', () => {
         let errorReceived: unknown = '';
         let handlerCalled = false;
 
-        const errorHandler = (e: unknown) => {
-            errorReceived = e;
-            handlerCalled = true;
+        const errorHandler = (logMessage: LogMessage) => {
+            if (logMessage.type === 'error') {
+                errorReceived = logMessage.error;
+                handlerCalled = true;
+            }
         };
         const pump = createAsyncActionPump(errorHandler);
 

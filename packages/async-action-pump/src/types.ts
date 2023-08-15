@@ -6,18 +6,42 @@ export type CancellableAsyncAction<T> = (cancellationToken: ICancellationToken) 
 export type CancellableAction<T> = (cancellationToken: ICancellationToken) => T;
 export type AsyncAction<T> = () => Thenable<T>;
 export type Action<T> = () => T;
-export type ErrorHandler = (e: unknown) => void;
-export type Logger = (message: string) => void;
+
+export type LogMessage =
+    | {
+          type: 'log';
+          message: string;
+      }
+    | {
+          type: 'error';
+          error: unknown;
+      };
+export type Logger = (logMessage: LogMessage) => void;
 
 type BasePumpOptions = {
-    errorHandler?: ErrorHandler;
-    logger?: Logger;
+    /**
+     * Logger for logging verbose messages and errors.
+     * This can be useful for diagnosing issues.
+     *
+     * defaults to a no-op.
+     */
+    logger?: Logger | undefined;
 };
 
+/**
+ * Options for creating an action pump.
+ */
 export type AsyncActionPumpOptions = BasePumpOptions;
 
+/**
+ * Options for creating a cancellable action pumps.
+ */
 export type CancellableAsyncActionPumpOptions = BasePumpOptions & {
-    cancellationTokenSourceFactory?: ICancellationTokenSourceFactory;
+    /**
+     * factory for creating custom cancellation token sources.
+     * If not provided, a default factory will be used.
+     */
+    cancellationTokenSourceFactory?: ICancellationTokenSourceFactory | undefined;
 };
 
 export interface IAsyncActionPump<T> extends Disposable {

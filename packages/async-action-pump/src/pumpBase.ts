@@ -1,5 +1,5 @@
 import { ObjectDisposedException } from '@vritant24/cancellation';
-import { ErrorHandler } from './types';
+import { LogMessage } from './types';
 
 export type Processor<T, U> = (item: T | undefined) => U;
 export type DequeueStrategy<QueueItemType, DequeueItemType> = (queue: QueueItemType[]) => DequeueItemType | undefined;
@@ -7,15 +7,12 @@ export type DequeueStrategy<QueueItemType, DequeueItemType> = (queue: QueueItemT
 export type PumpOptions<QueueItemType, DequeueItemType> = {
     objectName: string;
     dequeueStrategy: DequeueStrategy<QueueItemType, DequeueItemType>;
-    errorHandler: ErrorHandler;
-    logger: (message: string) => void;
+    logger: (logMessage: LogMessage) => void;
 };
 
 export function defaultDequeueStrategy<T>(queue: T[]): T | undefined {
     return queue.shift();
 }
-
-export function defaultErrorHandler(): void {}
 
 export function defaultLogger(): void {}
 
@@ -24,8 +21,7 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
     private readonly _dequeueStrategy: DequeueStrategy<QueueItemType, DequeueItemType>;
     private readonly _objectName: string;
 
-    protected readonly _errorHandler: ErrorHandler;
-    protected readonly _logger: (message: string) => void;
+    protected readonly _logger: (logMessage: LogMessage) => void;
 
     private _isActionRunning: boolean;
     private _isDisposed: boolean;
@@ -36,7 +32,6 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
         this._isDisposed = false;
 
         this._dequeueStrategy = options.dequeueStrategy;
-        this._errorHandler = options.errorHandler;
         this._logger = options.logger;
         this._objectName = options.objectName;
     }
@@ -70,7 +65,10 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
                 (e) => {
                     this._isActionRunning = false;
                     this.dequeue();
-                    this._errorHandler(e);
+                    this._logger({
+                        type: 'error',
+                        error: e,
+                    });
                 },
             );
         } catch (e) {
@@ -78,7 +76,10 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
             // in the wrapping logic in enqueue.
             this._isActionRunning = false;
             this.dequeue();
-            this._errorHandler(e);
+            this._logger({
+                type: 'error',
+                error: e,
+            });
         }
     }
 
