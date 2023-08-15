@@ -39,8 +39,8 @@ export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>
                     new Promise((resolve, reject) => {
                         try {
                             const res = action();
-                            resolvePost(res);
                             resolve();
+                            resolvePost(res);
                         } catch (reason: unknown) {
                             reject(reason);
                             rejectPost(reason);

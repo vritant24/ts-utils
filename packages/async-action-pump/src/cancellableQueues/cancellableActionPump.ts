@@ -74,9 +74,7 @@ export class CancellableActionPump<T>
     }
 
     public cancelQueuedAndRunningOperations() {
-        // cancel any running operations
         this.cancellationTokenSource.cancel();
-        // clear the queue
         this.clearQueue();
         this.cancellationTokenSource = this.cancellationTokenSourceFactory.create();
     }
