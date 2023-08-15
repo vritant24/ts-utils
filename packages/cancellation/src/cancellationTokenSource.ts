@@ -1,5 +1,22 @@
-import { CancellationToken, CancellationTokenImpl } from './cancellationToken';
+import { ICancellationToken, CancellationTokenImpl } from './cancellationToken';
 import { ObjectDisposedException } from './objectDisposedException';
+
+export interface ICancellationTokenSource extends Disposable {
+    /**
+     * Gets a value indicating whether cancellation has been requested for this source.
+     */
+    isCancellationRequested: boolean;
+
+    /**
+     * Gets a cancellation token that is cancelled when this source is cancelled.
+     */
+    token: ICancellationToken;
+
+    /**
+     * Cancels the token source and all tokens linked to it.
+     */
+    cancel(): void;
+}
 
 /**
  * A source for cancellation tokens.
@@ -8,7 +25,7 @@ import { ObjectDisposedException } from './objectDisposedException';
  * This is single use only. Once cancelled, it cannot be reset.
  * This implements the Disposable pattern and so can be used with the `using` function.
  */
-export class CancellationTokenSource implements Disposable {
+export class CancellationTokenSource implements ICancellationTokenSource {
     private readonly _token: CancellationTokenImpl;
     private _isDisposed: boolean;
 
@@ -17,6 +34,9 @@ export class CancellationTokenSource implements Disposable {
         this._isDisposed = false;
     }
 
+    /**
+     * Gets a value indicating whether cancellation has been requested for this source.
+     */
     public get isCancellationRequested(): boolean {
         return this._token.isCancellationRequested();
     }
@@ -25,13 +45,13 @@ export class CancellationTokenSource implements Disposable {
      * Gets a cancellation token that is cancelled when this source is cancelled.
      * @throws ObjectDisposedException if this source is disposed.
      */
-    public get token(): CancellationToken {
+    public get token(): ICancellationToken {
         this.throwIfDisposed();
         return this._token;
     }
 
     /**
-     * Cancels the source.
+     * Cancels the token source and all tokens linked to it.
      * @throws ObjectDisposedException if this source is disposed.
      */
     public cancel(): void {

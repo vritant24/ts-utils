@@ -88,6 +88,10 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
         }
     }
 
+    protected clearQueue(): void {
+        this._queue.length = 0;
+    }
+
     [Symbol.dispose](): void {
         this._isDisposed = true;
         this._queue.length = 0;

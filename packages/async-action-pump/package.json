@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@vritant24/cancellation": "^0.0.1",
+    "eventemitter3": "^5.0.1",
     "typescript": "^5.2.0-beta"
   },
   "devDependencies": {

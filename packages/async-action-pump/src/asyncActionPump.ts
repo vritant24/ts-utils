@@ -18,25 +18,23 @@ export class AsyncActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<
     public post(action: AsyncAction<T>): void {
         this.throwIfDisposed();
 
-        this.enqueue(
-            async () => {await action();}
-        );
+        this.enqueue(async () => {
+            await action();
+        });
     }
 
     public postAsync(action: AsyncAction<T>): Promise<T> {
         this.throwIfDisposed();
 
         return new Promise<T>((resolvePost, rejectPost) => {
-            this.enqueue(
-                async () => {
-                    try {
-                        const res = await action();
-                        resolvePost(res);
-                    } catch (e) {
-                        rejectPost(e);
-                    }
+            this.enqueue(async () => {
+                try {
+                    const res = await action();
+                    resolvePost(res);
+                } catch (e) {
+                    rejectPost(e);
                 }
-            );
+            });
         });
     }
 
