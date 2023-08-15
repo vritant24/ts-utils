@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { CancellableAsyncActionPump } from '../cancellableQueues/cancellableAsyncActionPump';
 import { ICancellationToken } from '@vritant24/cancellation';
 import { createCompletionTracker } from './utilities/completionTracker';
+import { CancellableActionPump } from '../cancellableQueues/cancellableActionPump';
 
 function createCancellableActionPump<T>() {
-    return CancellableAsyncActionPump.create<T>();
+    return CancellableActionPump.create<T>();
 }
 
 describe('CancellableAsyncActionQueue', () => {
@@ -16,34 +16,13 @@ describe('CancellableAsyncActionQueue', () => {
             cancellationToken.onCancellationRequested(() => {
                 resolveCompletionPromise();
             });
-            return completionPromise;
         });
 
         queue.cancelQueuedAndRunningOperations();
+
+        await completionPromise;
 
         // The action should not be run. If run, this would not resolve
-        await expect(queue.waitForAllActions()).resolves.toBeUndefined();
-    });
-
-    it('should cancel running operation and remove queued actions', async () => {
-        const queue = createCancellableActionPump();
-        const [resolveCompletionPromise1, completionPromise1] = createCompletionTracker();
-        const [_, completionPromise2] = createCompletionTracker();
-
-        queue.post((cancellationToken: ICancellationToken) => {
-            cancellationToken.onCancellationRequested(() => {
-                resolveCompletionPromise1();
-            });
-            return completionPromise1;
-        });
-
-        queue.post((_: ICancellationToken) => {
-            return completionPromise2;
-        });
-
-        queue.cancelQueuedAndRunningOperations();
-
-        // The second action should not be run. If run, this would not resolve
         await expect(queue.waitForAllActions()).resolves.toBeUndefined();
     });
 
@@ -56,16 +35,16 @@ describe('CancellableAsyncActionQueue', () => {
             cancellationToken.onCancellationRequested(() => {
                 resolveCompletionPromise1();
             });
-            return completionPromise1;
         });
 
         queue.cancelQueuedAndRunningOperations();
+
+        await completionPromise1;
 
         let cancellationToken: ICancellationToken;
         queue.post((token: ICancellationToken) => {
             cancellationToken = token;
             resolveCompletionPromise2();
-            return Promise.resolve();
         });
 
         // The action should be run and the cancellation token should not be cancelled
@@ -82,7 +61,6 @@ describe('CancellableAsyncActionQueue', () => {
             cancellationToken.onCancellationRequested(() => {
                 spy();
             });
-            return Promise.resolve();
         });
 
         await queue.waitForAllActions();
@@ -95,7 +73,7 @@ describe('CancellableAsyncActionQueue', () => {
         const queue = createCancellableActionPump();
 
         const res = await queue.postAsync(() => {
-            return Promise.resolve(1);
+            return 1;
         });
 
         expect(res).toEqual(1);
