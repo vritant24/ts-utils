@@ -28,7 +28,7 @@ export class CancellableActionPump<T>
 
     private constructor(options?: CancellableAsyncActionPumpOptions) {
         super({
-            objectName: 'AsyncActionPump',
+            objectName: 'CancellableActionPump',
             dequeueStrategy: defaultDequeueStrategy,
             logger: options?.logger ?? defaultLogger,
         });
