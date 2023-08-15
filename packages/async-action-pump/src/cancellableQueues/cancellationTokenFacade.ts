@@ -19,7 +19,7 @@ export class CancellationTokenFacade implements ICancellationToken, Disposable {
         this.disposables.push(this.cancellationToken.onCancellationRequested(() => this.onCancelled.emit('cancelled')));
     }
 
-    throwIfCancellationRequested(): void {
+    public throwIfCancellationRequested(): void {
         return this.cancellationToken.throwIfCancellationRequested();
     }
 
@@ -29,7 +29,7 @@ export class CancellationTokenFacade implements ICancellationToken, Disposable {
 
     public onCancellationRequested(listener: CancellationEventListener): Disposable {
         if (this.isDisposed) {
-            throw new ObjectDisposedException('CancellationTokenFacade');
+            throw new ObjectDisposedException('CancellationToken');
         }
 
         const emitter = this.onCancelled.on('cancelled', listener);
