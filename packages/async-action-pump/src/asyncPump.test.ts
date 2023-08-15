@@ -2,19 +2,10 @@
 import { describe, expect, it } from 'vitest';
 import { ErrorHandler } from './types';
 import { AsyncActionPump } from './asyncActionPump';
+import { createCompletionTracker } from './utilities/completionTracker';
 
 function noOpErrorHandler() {
     return;
-}
-
-function createCompletionTracker(): [Promise<void>, () => void] {
-    let completionResolver: (() => void) | undefined = undefined;
-
-    const completionPromise = new Promise<void>((resolve) => {
-        completionResolver = resolve;
-    });
-
-    return [completionPromise, completionResolver!];
 }
 
 function createAsyncActionPump<T>(errorHandler?: ErrorHandler) {
@@ -25,7 +16,7 @@ function createAsyncActionPump<T>(errorHandler?: ErrorHandler) {
 
 describe('Async Action Pump', () => {
     it('should run queued async action', async () => {
-        const pump = createAsyncActionPump(noOpErrorHandler);
+        const pump = createAsyncActionPump();
         let check = 1;
 
         pump.post(
@@ -41,7 +32,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run queued async actions in order', async () => {
-        const pump = createAsyncActionPump(noOpErrorHandler);
+        const pump = createAsyncActionPump();
         const arr: number[] = [];
         const expectedArr: number[] = [];
 
@@ -61,7 +52,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run return the queued async action values in order', async () => {
-        const pump = createAsyncActionPump<number>(noOpErrorHandler);
+        const pump = createAsyncActionPump<number>();
         const arr: Promise<number>[] = [];
         const expectedArr: number[] = [];
 
@@ -121,7 +112,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run async action after an async action that rejects', async () => {
-        const [p, r] = createCompletionTracker();
+        const [r, p] = createCompletionTracker();
 
         const error = 'ERRRRROR!';
         let errorReceived: unknown = '';
@@ -151,7 +142,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run async action after an async action that throws', async () => {
-        const [p, r] = createCompletionTracker();
+        const [r, p] = createCompletionTracker();
 
         const error = 'ERRRRROR!';
         let errorReceived: unknown = '';
@@ -181,9 +172,9 @@ describe('Async Action Pump', () => {
     });
 
     it('should clean queue and throw on post when disposed', async () => {
-        const [p, r] = createCompletionTracker();
+        const [r, p] = createCompletionTracker();
 
-        const pump = createAsyncActionPump<void>(noOpErrorHandler) as AsyncActionPump<void>;
+        const pump = createAsyncActionPump<void>() as AsyncActionPump<void>;
         let resolver: (() => void) | undefined = undefined;
 
         pump.post(() => {
