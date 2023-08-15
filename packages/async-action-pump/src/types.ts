@@ -1,5 +1,5 @@
 import { Thenable } from './thenable';
-import { ICancellationTokenSourceFactory } from './cancellationTokenSourceFactory';
+import { ICancellationTokenSourceFactory } from './cancellableQueues/cancellationTokenSourceFactory';
 import { ICancellationToken } from '@vritant24/cancellation/';
 
 export type CancellableAsyncAction<T> = (cancellationToken: ICancellationToken) => Thenable<T>;

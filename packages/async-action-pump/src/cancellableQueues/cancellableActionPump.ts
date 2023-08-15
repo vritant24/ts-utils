@@ -7,8 +7,8 @@ import {
     CancellableAsyncAction,
     CancellableAsyncActionPumpOptions,
     ICancellableActionPump,
-} from './types';
-import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from './pumpBase';
+} from '../types';
+import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from '../pumpBase';
 import {
     DefaultCancellationTokenSourceFactory,
     ICancellationTokenSourceFactory,

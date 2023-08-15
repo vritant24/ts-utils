@@ -1,7 +1,7 @@
-export { ActionPump } from './actionPump';
-export { AsyncActionPump } from './asyncActionPump';
-export { CancellableActionPump } from './cancellableActionPump';
-export { CancellableAsyncActionPump } from './cancellableAsyncActionPump';
+export { ActionPump } from './queues/actionPump';
+export { AsyncActionPump } from './queues/asyncActionPump';
+export { CancellableActionPump } from './cancellableQueues/cancellableActionPump';
+export { CancellableAsyncActionPump } from './cancellableQueues/cancellableAsyncActionPump';
 export type {
     IActionPump,
     IAsyncActionPump,

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CancellationTokenImpl, CancellationTokenNone } from './cancellationToken';
-import { ObjectDisposedException } from './objectDisposedException';
+import { CancellationTokenImpl, CancellationTokenNone } from '../cancellationToken';
+import { ObjectDisposedException } from '../objectDisposedException';
 import { OperationCanceledException } from 'typescript';
 
 describe('cancellationTokenImpl', async () => {

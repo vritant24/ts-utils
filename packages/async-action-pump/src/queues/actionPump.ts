@@ -1,5 +1,5 @@
-import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from './pumpBase';
-import { Action, AsyncAction, AsyncActionPumpOptions, IActionPump } from './types';
+import { PumpBase, defaultDequeueStrategy, defaultErrorHandler, defaultLogger } from '../pumpBase';
+import { Action, AsyncAction, AsyncActionPumpOptions, IActionPump } from '../types';
 
 export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>> implements IActionPump<T> {
     public static create<T>(options?: AsyncActionPumpOptions): IActionPump<T> {

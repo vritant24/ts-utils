@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { ErrorHandler } from './types';
-import { ActionPump } from './actionPump';
+import { ErrorHandler } from '../types';
+import { ActionPump } from '../queues/actionPump';
 
 function noOpErrorHandler() {
     return;
