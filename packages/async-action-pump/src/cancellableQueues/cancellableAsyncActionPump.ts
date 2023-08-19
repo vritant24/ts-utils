@@ -58,6 +58,10 @@ export class CancellableAsyncActionPump<T>
     public cancelQueuedAndRunningOperations() {
         this.cancellationTokenSource.cancel();
         this.clearQueue();
+        this._logger({
+            type: 'log',
+            message: 'cancelled running and queued operations',
+        });
         this.cancellationTokenSource = this.cancellationTokenSourceFactory.create();
     }
 
