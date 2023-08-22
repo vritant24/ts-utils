@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { CancellationTokenSource } from './cancellationTokenSource';
+import { CancellationTokenSource } from '../cancellationTokenSource';
 
 describe('cancellationTokenSource', () => {
     it('should be able to cancel', () => {
