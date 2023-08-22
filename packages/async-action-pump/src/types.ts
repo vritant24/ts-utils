@@ -1,6 +1,6 @@
 import { Thenable } from './thenable';
 import { ICancellationTokenSourceFactory } from './cancellableQueues/cancellationTokenSourceFactory';
-import { ICancellationToken, ObjectDisposedException } from '@vritant24/cancellation';
+import { ICancellationToken, IDisposable, ObjectDisposedException } from '@vritant24/cancellation';
 
 /**
  * An async action that is supplied an {@link ICancellationToken}.
@@ -52,7 +52,7 @@ export type CancellableAsyncActionPumpOptions = BasePumpOptions & {
     cancellationTokenSourceFactory?: ICancellationTokenSourceFactory | undefined;
 };
 
-export interface IAsyncActionPump<T> extends Disposable {
+export interface IAsyncActionPump<T> extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
@@ -76,7 +76,7 @@ export interface IAsyncActionPump<T> extends Disposable {
     waitForAllActions(): Promise<void>;
 }
 
-export interface IActionPump<T> extends Disposable {
+export interface IActionPump<T> extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
@@ -100,7 +100,7 @@ export interface IActionPump<T> extends Disposable {
     waitForAllActions(): Promise<void>;
 }
 
-export interface ICancellableActionPump<T> extends Disposable {
+export interface ICancellableActionPump<T> extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
@@ -138,7 +138,7 @@ export interface ICancellableActionPump<T> extends Disposable {
     cancelQueuedAndRunningOperations(): void;
 }
 
-export interface ICancellableAsyncActionPump<T> extends Disposable {
+export interface ICancellableAsyncActionPump<T> extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.

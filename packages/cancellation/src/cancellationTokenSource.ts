@@ -1,7 +1,8 @@
 import { ICancellationToken, CancellationTokenImpl } from './cancellationToken';
+import { IDisposable } from './disposable';
 import { ObjectDisposedException } from './objectDisposedException';
 
-export interface ICancellationTokenSource extends Disposable {
+export interface ICancellationTokenSource extends IDisposable {
     /**
      * Gets a value indicating whether cancellation has been requested for this source.
      */
@@ -68,10 +69,14 @@ export class CancellationTokenSource implements ICancellationTokenSource {
     /**
      * Releases resources used by this source.
      */
-    [Symbol.dispose](): void {
+    public dispose(): void {
         if (!this._isDisposed) {
             this._isDisposed = true;
             this._token[Symbol.dispose]();
         }
+    }
+
+    [Symbol.dispose](): void {
+        return this.dispose();
     }
 }

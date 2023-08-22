@@ -1,12 +1,17 @@
-import { CancellationEventListener, ICancellationToken, ObjectDisposedException } from '@vritant24/cancellation';
+import {
+    CancellationEventListener,
+    ICancellationToken,
+    IDisposable,
+    ObjectDisposedException,
+} from '@vritant24/cancellation';
 import EventEmitter from 'eventemitter3';
 
 /**
  * A utility to wrap a cancellation token from a cancellation token source.
  * This is used to be able to reuse a singluar token sourXce across multiple operations.
  */
-export class CancellationTokenFacade implements ICancellationToken, Disposable {
-    private readonly disposables: Disposable[];
+export class CancellationTokenFacade implements ICancellationToken {
+    private readonly disposables: IDisposable[];
     private readonly onCancelled: EventEmitter;
 
     private isDisposed: boolean;
@@ -27,22 +32,27 @@ export class CancellationTokenFacade implements ICancellationToken, Disposable {
         return this.cancellationToken.isCancellationRequested();
     }
 
-    public onCancellationRequested(listener: CancellationEventListener): Disposable {
+    public onCancellationRequested(listener: CancellationEventListener): IDisposable {
         if (this.isDisposed) {
             throw new ObjectDisposedException('CancellationToken');
         }
 
         const emitter = this.onCancelled.on('cancelled', listener);
         return {
-            [Symbol.dispose]: () => emitter.off('cancelled'),
+            dispose: () => emitter.off('cancelled'),
+            [Symbol.dispose]: () => this.dispose(),
         };
     }
 
-    public [Symbol.dispose](): void {
+    public dispose(): void {
         if (!this.isDisposed) {
             this.isDisposed = true;
             this.onCancelled.removeAllListeners();
             this.disposables.forEach((disposable) => disposable[Symbol.dispose]());
         }
+    }
+
+    public [Symbol.dispose](): void {
+        this.dispose();
     }
 }

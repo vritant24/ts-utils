@@ -92,8 +92,7 @@ export class CancellableAsyncActionPump<T>
         }
     }
 
-    public override [Symbol.dispose]() {
-        this.cancellationTokenSource[Symbol.dispose]();
-        super[Symbol.dispose]();
+    protected override disposeInternal(): void {
+        this.cancellationTokenSource.dispose();
     }
 }

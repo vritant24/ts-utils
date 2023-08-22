@@ -2,6 +2,7 @@ import EventEmitter from 'eventemitter3';
 import { ICancellationTokenSource } from './cancellationTokenSource';
 import { OperationCanceledException, CancellationToken } from 'typescript';
 import { ObjectDisposedException } from './objectDisposedException';
+import { EmptyDisposable, IDisposable } from './disposable';
 
 /**
  * A callback to be invoked when an {@link ICancellationToken} is cancelled.
@@ -13,13 +14,13 @@ export type CancellationEventListener = () => void;
  * @remarks
  * This implements the Disposable pattern and so can be used with the `using` function.
  */
-export interface ICancellationToken extends Disposable, CancellationToken {
+export interface ICancellationToken extends IDisposable, CancellationToken {
     /**
      * Registers a listener to be invoked when the token is cancelled.
      * @param listener A callback to be invoked when the token is cancelled.
      * @throws throws {@link ObjectDisposedException} if this token is disposed.
      */
-    onCancellationRequested(listener: CancellationEventListener): Disposable;
+    onCancellationRequested(listener: CancellationEventListener): IDisposable;
 }
 
 export class CancellationTokenImpl implements ICancellationToken {
@@ -50,21 +51,26 @@ export class CancellationTokenImpl implements ICancellationToken {
         }
     }
 
-    public onCancellationRequested(listener: CancellationEventListener): Disposable {
+    public onCancellationRequested(listener: CancellationEventListener): IDisposable {
         if (this._isDisposed) {
             throw new ObjectDisposedException('CancellationToken');
         }
         const emitter = this._cancellationRequestedEmitter.on('cancelled', listener);
         return {
-            [Symbol.dispose]: () => emitter.off('cancelled'),
+            dispose: () => emitter.off('cancelled'),
+            [Symbol.dispose]: () => this.dispose(),
         };
     }
 
-    [Symbol.dispose](): void {
+    dispose(): void {
         if (!this._isDisposed) {
             this._isDisposed = true;
             this._cancellationRequestedEmitter.removeAllListeners();
         }
+    }
+
+    [Symbol.dispose](): void {
+        this.dispose();
     }
 }
 
@@ -74,6 +80,7 @@ export class CancellationTokenImpl implements ICancellationToken {
 export const CancellationTokenNone: ICancellationToken = {
     isCancellationRequested: () => false,
     throwIfCancellationRequested: () => {},
-    onCancellationRequested: () => ({ [Symbol.dispose]: () => {} }),
+    onCancellationRequested: EmptyDisposable,
+    dispose: () => {},
     [Symbol.dispose]: () => {},
 };

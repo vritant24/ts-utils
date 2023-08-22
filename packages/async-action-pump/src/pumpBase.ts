@@ -1,4 +1,4 @@
-import { ObjectDisposedException } from '@vritant24/cancellation';
+import { IDisposable, ObjectDisposedException } from '@vritant24/cancellation';
 import { LogMessage } from './types';
 
 export type Processor<T, U> = (item: T | undefined) => U;
@@ -24,7 +24,7 @@ export function defaultDequeueStrategy<T>(queue: T[]): T | undefined {
  */
 export function defaultLogger(): void {}
 ``;
-export abstract class PumpBase<QueueItemType, DequeueItemType> implements Disposable {
+export abstract class PumpBase<QueueItemType, DequeueItemType> implements IDisposable {
     private readonly _queue: QueueItemType[];
     private readonly _dequeueStrategy: DequeueStrategy<QueueItemType, DequeueItemType>;
     private readonly _objectName: string;
@@ -155,8 +155,19 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements Dispos
         });
     }
 
+    public dispose(): void {
+        if (!this._isDisposed) {
+            this._isDisposed = true;
+            this.disposeInternal();
+            this.clearQueue();
+        }
+    }
+
+    protected disposeInternal() {
+        //to be overridden by inheritors
+    }
+
     [Symbol.dispose](): void {
-        this._isDisposed = true;
-        this.clearQueue();
+        this.dispose();
     }
 }

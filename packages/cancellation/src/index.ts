@@ -3,3 +3,4 @@ export type { ICancellationToken, CancellationEventListener } from './cancellati
 export { CancellationTokenSource } from './cancellationTokenSource';
 export type { ICancellationTokenSource } from './cancellationTokenSource';
 export { ObjectDisposedException } from './objectDisposedException';
+export type { IDisposable, EmptyDisposable as DisposableNone } from './disposable';
