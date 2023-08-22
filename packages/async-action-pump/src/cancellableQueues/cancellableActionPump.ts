@@ -80,7 +80,7 @@ export class CancellableActionPump<T>
         this.clearQueue();
         this._logger({
             type: 'log',
-            message: 'cancelled running and queued operations'
+            message: 'cancelled running and queued operations',
         });
         this.cancellationTokenSource = this.cancellationTokenSourceFactory.create();
     }

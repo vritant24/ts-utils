@@ -132,7 +132,7 @@ export interface ICancellableActionPump<T> extends Disposable {
      * NOTE: This will clear the queue and create a new {@link CancellationTokenSource}.
      * The running action will be cancelled through the {@link ICancellationToken} supplied,
      * but any new actions will not run until the current action completes.
-     * 
+     *
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
     cancelQueuedAndRunningOperations(): void;
@@ -170,7 +170,7 @@ export interface ICancellableAsyncActionPump<T> extends Disposable {
      * NOTE: This will clear the queue and create a new {@link CancellationTokenSource}.
      * The running action will be cancelled through the {@link ICancellationToken} supplied,
      * but any new actions will not run until the current action completes.
-     * 
+     *
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
     cancelQueuedAndRunningOperations(): void;
