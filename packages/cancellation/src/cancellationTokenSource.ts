@@ -8,7 +8,7 @@ export interface ICancellationTokenSource extends Disposable {
     isCancellationRequested: boolean;
 
     /**
-     * Gets a cancellation token that is cancelled when this source is cancelled.
+     * Gets an {@link ICancellationToken} that is cancelled when this source is cancelled.
      */
     token: ICancellationToken;
 
@@ -42,8 +42,8 @@ export class CancellationTokenSource implements ICancellationTokenSource {
     }
 
     /**
-     * Gets a cancellation token that is cancelled when this source is cancelled.
-     * @throws ObjectDisposedException if this source is disposed.
+     * Gets a {@link ICancellationToken} that is cancelled when this source is cancelled.
+     * @throws throws {@link ObjectDisposedException} if this source is disposed.
      */
     public get token(): ICancellationToken {
         this.throwIfDisposed();
@@ -52,7 +52,7 @@ export class CancellationTokenSource implements ICancellationTokenSource {
 
     /**
      * Cancels the token source and all tokens linked to it.
-     * @throws ObjectDisposedException if this source is disposed.
+     * @throws throws {@link ObjectDisposedException} if this source is disposed.
      */
     public cancel(): void {
         this.throwIfDisposed();

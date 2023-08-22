@@ -1,14 +1,15 @@
 import EventEmitter from 'eventemitter3';
-import { OperationCanceledException, CancellationToken as CancellationToken } from 'typescript';
+import { ICancellationTokenSource } from './cancellationTokenSource';
+import { OperationCanceledException, CancellationToken } from 'typescript';
 import { ObjectDisposedException } from './objectDisposedException';
 
 /**
- * A callback to be invoked when a token is cancelled.
+ * A callback to be invoked when an {@link ICancellationToken} is cancelled.
  */
 export type CancellationEventListener = () => void;
 
 /**
- * Represents a cancellation token provided by a CancellationTokenSource.
+ * Represents a cancellation token provided by an {@link ICancellationTokenSource}.
  * @remarks
  * This implements the Disposable pattern and so can be used with the `using` function.
  */
@@ -16,6 +17,7 @@ export interface ICancellationToken extends Disposable, CancellationToken {
     /**
      * Registers a listener to be invoked when the token is cancelled.
      * @param listener A callback to be invoked when the token is cancelled.
+     * @throws throws {@link ObjectDisposedException} if this token is disposed.
      */
     onCancellationRequested(listener: CancellationEventListener): Disposable;
 }
@@ -66,6 +68,9 @@ export class CancellationTokenImpl implements ICancellationToken {
     }
 }
 
+/**
+ * A No-Op implementation of an {@link ICancellationToken}
+ */
 export const CancellationTokenNone: ICancellationToken = {
     isCancellationRequested: () => false,
     throwIfCancellationRequested: () => {},

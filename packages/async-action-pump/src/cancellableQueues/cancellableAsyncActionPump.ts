@@ -56,6 +56,8 @@ export class CancellableAsyncActionPump<T>
     }
 
     public cancelQueuedAndRunningOperations() {
+        this.throwIfDisposed();
+
         this.cancellationTokenSource.cancel();
         this.clearQueue();
         this._logger({
@@ -65,15 +67,14 @@ export class CancellableAsyncActionPump<T>
         this.cancellationTokenSource = this.cancellationTokenSourceFactory.create();
     }
 
-    public waitForAllActions(): Promise<void> {
+    public async waitForAllActions(): Promise<void> {
         this.throwIfDisposed();
 
-        return new Promise((resolve) => {
-            this.post(() => {
-                resolve();
-                return Promise.resolve(undefined as unknown as T);
-            });
-        });
+        try {
+            await this.postAsync(() => Promise.resolve());
+        } catch {
+            //swallow all errors
+        }
     }
 
     protected override async runProcessorAsync(item: CancellableAsyncAction<void>): Promise<void> {
@@ -89,5 +90,10 @@ export class CancellableAsyncActionPump<T>
              */
             cancellationToken[Symbol.dispose]();
         }
+    }
+
+    public override [Symbol.dispose]() {
+        this.cancellationTokenSource[Symbol.dispose]();
+        super[Symbol.dispose]();
     }
 }
