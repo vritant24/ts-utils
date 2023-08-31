@@ -4,23 +4,12 @@
 name: Node.js Package
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
-
+  
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm run build -ws
-      - run: npm run test -ws
-
   publish-npm:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,7 +18,9 @@ jobs:
           node-version: 18
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm run build -ws
+      - run: npm run build -w packages/cancellation && npm run declaration -w packages/cancellation 
+      - run: npm run build -w packages/async-action-pump && npm run declaration -w packages/async-action-pump
+      - run: npm run test -ws
       - run: npm publish --access=public -ws
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
