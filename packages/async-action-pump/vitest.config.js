@@ -3,8 +3,8 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
     test: {
-        include: ['src/*.test.ts'],
-        root: './src',
+        include: ['*.test.ts'],
+        root: './src/tests',
         environment: 'node'
     },
 })
