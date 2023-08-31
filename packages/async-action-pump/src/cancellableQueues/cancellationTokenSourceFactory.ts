@@ -1,4 +1,4 @@
-import { CancellationTokenSource } from '@vritant24/cancellation/';
+import { CancellationTokenSource } from '@vritant/cancellation/';
 
 export interface ICancellationTokenSourceFactory {
     create(): CancellationTokenSource;

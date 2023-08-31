@@ -1,4 +1,4 @@
-import { IDisposable, ObjectDisposedException } from '@vritant24/cancellation';
+import { IDisposable, ObjectDisposedException } from '@vritant/cancellation';
 import { LogMessage } from './types';
 
 export type Processor<T, U> = (item: T | undefined) => U;

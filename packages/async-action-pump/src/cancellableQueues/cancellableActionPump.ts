@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CancellationTokenSource, ICancellationToken } from '@vritant24/cancellation/';
+import { CancellationTokenSource, ICancellationToken } from '@vritant/cancellation/';
 import {
     CancellableAction,
     CancellableAsyncAction,
