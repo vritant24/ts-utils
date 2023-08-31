@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ICancellationToken } from '@vritant24/cancellation';
+import { ICancellationToken } from '@vritant/cancellation';
 import { createCompletionTracker } from './utilities/completionTracker';
 import { CancellableActionPump } from '../cancellableQueues/cancellableActionPump';
 

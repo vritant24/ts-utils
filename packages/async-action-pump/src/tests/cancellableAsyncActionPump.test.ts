@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { CancellableAsyncActionPump } from '../cancellableQueues/cancellableAsyncActionPump';
-import { ICancellationToken } from '@vritant24/cancellation';
+import { ICancellationToken } from '@vritant/cancellation';
 import { createCompletionTracker } from './utilities/completionTracker';
 
 function createCancellableActionPump<T>() {

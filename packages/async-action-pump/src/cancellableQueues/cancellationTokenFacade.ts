@@ -3,7 +3,7 @@ import {
     ICancellationToken,
     IDisposable,
     ObjectDisposedException,
-} from '@vritant24/cancellation';
+} from '@vritant/cancellation';
 import EventEmitter from 'eventemitter3';
 
 /**
