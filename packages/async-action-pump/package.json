@@ -1,5 +1,5 @@
 {
-  "name": "@vritant24/async-action-pump",
+  "name": "@vritant/async-action-pump",
   "description": "A library to dynamically chain async actions",
   "author": {
     "name": "Vritant Bhardwaj"
