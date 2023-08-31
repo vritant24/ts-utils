@@ -53,19 +53,19 @@ describe('cancellationTokenImpl', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener = vi.fn();
         const disposable = cancellationToken.onCancellationRequested(listener);
-        disposable[Symbol.dispose]();
+        disposable.dispose();
         cancellationToken.cancel();
         expect(listener).not.toBeCalled();
     });
 
     it('should be able to dispose', () => {
         const cancellationToken = new CancellationTokenImpl();
-        cancellationToken[Symbol.dispose]();
+        cancellationToken.dispose();
     });
 
     it('should not be able to register a cancellation listener after disposal', () => {
         const cancellationToken = new CancellationTokenImpl();
-        cancellationToken[Symbol.dispose]();
+        cancellationToken.dispose();
 
         expect(() => cancellationToken.onCancellationRequested(vi.fn())).toThrowError(ObjectDisposedException);
     });
@@ -74,7 +74,7 @@ describe('cancellationTokenImpl', async () => {
         const cancellationToken = new CancellationTokenImpl();
         const listener = vi.fn();
         cancellationToken.onCancellationRequested(listener);
-        cancellationToken[Symbol.dispose]();
+        cancellationToken.dispose();
         cancellationToken.cancel();
         expect(listener).not.toBeCalled();
     });

@@ -30,18 +30,18 @@ describe('cancellationTokenSource', () => {
 
     it('should be able to dispose', () => {
         const cancellationTokenSource = new CancellationTokenSource();
-        cancellationTokenSource[Symbol.dispose]();
+        cancellationTokenSource.dispose();
     });
 
     it('should not be able to cancel after disposed', () => {
         const cancellationTokenSource = new CancellationTokenSource();
-        cancellationTokenSource[Symbol.dispose]();
+        cancellationTokenSource.dispose();
         expect(() => cancellationTokenSource.cancel()).toThrowError();
     });
 
     it('should not be able to get a cancellation token after disposed', () => {
         const cancellationTokenSource = new CancellationTokenSource();
-        cancellationTokenSource[Symbol.dispose]();
+        cancellationTokenSource.dispose();
         expect(() => cancellationTokenSource.token).toThrowError();
     });
 });

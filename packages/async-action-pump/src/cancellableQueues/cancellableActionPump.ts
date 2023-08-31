@@ -106,7 +106,7 @@ export class CancellableActionPump<T>
              * cancellation event within this operation.
              * Also dispose all resources that were registered
              */
-            cancellationToken[Symbol.dispose]();
+            cancellationToken.dispose();
         }
     }
 

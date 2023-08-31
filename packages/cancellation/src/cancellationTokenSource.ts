@@ -72,7 +72,7 @@ export class CancellationTokenSource implements ICancellationTokenSource {
     public dispose(): void {
         if (!this._isDisposed) {
             this._isDisposed = true;
-            this._token[Symbol.dispose]();
+            this._token.dispose();
         }
     }
 

@@ -173,7 +173,7 @@ describe('Async Action Pump', () => {
 
         pump.post(() => Promise.resolve());
         expect(pump['_queue']).to.have.length(1);
-        pump[Symbol.dispose]();
+        pump.dispose();
         expect(pump['_queue']).to.have.length(0);
 
         await p;

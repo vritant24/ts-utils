@@ -48,7 +48,7 @@ export class CancellationTokenFacade implements ICancellationToken {
         if (!this.isDisposed) {
             this.isDisposed = true;
             this.onCancelled.removeAllListeners();
-            this.disposables.forEach((disposable) => disposable[Symbol.dispose]());
+            this.disposables.forEach((disposable) => disposable.dispose());
         }
     }
 
