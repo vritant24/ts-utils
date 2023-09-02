@@ -13,14 +13,7 @@
     "url": "https://github.com/vritant24/ts-utils"
   },
   "main": "./artifacts/dist/lib/index.js",
-  "types": "src/notSupported.d.ts",
-  "typesVersions": {
-    ">=5.2": {
-      "*": [
-        "./artifacts/dist/types/index.d.ts"
-      ]
-    }
-  },
+  "types": "./artifacts/dist/types/index.d.ts",
   "license": "MIT",
   "files": [
     "artifacts/dist/lib",
