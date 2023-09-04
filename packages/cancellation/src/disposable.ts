@@ -14,5 +14,5 @@ export function EmptyDisposable(): IDisposable {
     return {
         dispose: () => {},
         [Symbol.dispose]: () => {},
-    }
-};
+    };
+}
