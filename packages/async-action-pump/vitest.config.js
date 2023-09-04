@@ -5,6 +5,5 @@ export default defineConfig({
     test: {
         include: ['*.test.ts'],
         root: './src/tests',
-        environment: 'node'
     },
 })
