@@ -108,7 +108,6 @@ export abstract class PumpBase<QueueItemType, DequeueItemType> implements IDispo
                     this.dequeue();
                 },
                 (e) => {
-                    e//?
                     // the processor rejected
                     this._logger({
                         type: 'log',
