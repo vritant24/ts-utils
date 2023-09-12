@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CancellationTokenSource, ICancellationToken } from '@vritant/cancellation/';
+import { ICancellationToken, ICancellationTokenSource } from '@vritant/cancellation/';
 import { CancellableAsyncAction, CancellableAsyncActionPumpOptions, ICancellableAsyncActionPump } from '../types';
 import { PumpBase, defaultDequeueStrategy, defaultLogger } from '../pumpBase';
 import {
@@ -15,7 +15,7 @@ export class CancellableAsyncActionPump
     implements ICancellableAsyncActionPump
 {
     private readonly cancellationTokenSourceFactory: ICancellationTokenSourceFactory;
-    private cancellationTokenSource: CancellationTokenSource;
+    private cancellationTokenSource: ICancellationTokenSource;
 
     public static create(options?: CancellableAsyncActionPumpOptions): CancellableAsyncActionPump {
         return new CancellableAsyncActionPump(options);

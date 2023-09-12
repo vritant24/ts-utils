@@ -1,7 +1,7 @@
-import { CancellationTokenSource } from '@vritant/cancellation/';
+import { CancellationTokenSource, ICancellationTokenSource } from '@vritant/cancellation/';
 
 export interface ICancellationTokenSourceFactory {
-    create(): CancellationTokenSource;
+    create(): ICancellationTokenSource;
 }
 
 export class DefaultCancellationTokenSourceFactory implements ICancellationTokenSourceFactory {

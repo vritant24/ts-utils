@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CancellationTokenSource, ICancellationToken } from '@vritant/cancellation/';
+import { ICancellationToken, ICancellationTokenSource } from '@vritant/cancellation/';
 import {
     CancellableAction,
     CancellableAsyncAction,
@@ -20,7 +20,7 @@ export class CancellableActionPump
     implements ICancellableActionPump
 {
     private readonly cancellationTokenSourceFactory: ICancellationTokenSourceFactory;
-    private cancellationTokenSource: CancellationTokenSource;
+    private cancellationTokenSource: ICancellationTokenSource;
 
     public static create(options?: CancellableAsyncActionPumpOptions): CancellableActionPump {
         return new CancellableActionPump(options);
