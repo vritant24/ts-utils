@@ -3,13 +3,13 @@ import { ICancellationToken } from '@vritant/cancellation';
 import { createCompletionTracker } from './utilities/completionTracker';
 import { CancellableActionPump } from '../cancellableQueues/cancellableActionPump';
 
-function createCancellableActionPump<T>() {
-    return CancellableActionPump.create<T>();
+function createCancellableActionPump() {
+    return CancellableActionPump.create();
 }
 
 describe('CancellableAsyncActionQueue', () => {
     it('should cancel running operation', async () => {
-        const queue = createCancellableActionPump<void>();
+        const queue = createCancellableActionPump();
         const [resolveCompletionPromise, completionPromise] = createCompletionTracker();
 
         queue.post((cancellationToken: ICancellationToken) => {

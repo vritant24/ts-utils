@@ -12,8 +12,8 @@ function createCompletionTracker(): [Promise<void>, () => void] {
     return [completionPromise, completionResolver!];
 }
 
-function createActionPump<T>(logger?: Logger) {
-    return ActionPump.create<T>({
+function createActionPump(logger?: Logger) {
+    return ActionPump.create({
         logger,
     });
 }
@@ -48,7 +48,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run return the queued async action values in order', async () => {
-        const pump = createActionPump<number>();
+        const pump = createActionPump();
         const arr: Promise<number>[] = [];
         const expectedArr: number[] = [];
 
@@ -165,7 +165,7 @@ describe('Async Action Pump', () => {
     it('should clean queue and throw on post when disposed', async () => {
         const [p, r] = createCompletionTracker();
 
-        const pump = createActionPump<void>() as ActionPump<void>;
+        const pump = createActionPump() as ActionPump;
 
         pump.post(() => {
             r();

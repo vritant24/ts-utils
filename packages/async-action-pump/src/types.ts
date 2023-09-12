@@ -52,13 +52,13 @@ export type CancellableAsyncActionPumpOptions = BasePumpOptions & {
     cancellationTokenSourceFactory?: ICancellationTokenSourceFactory | undefined;
 };
 
-export interface IAsyncActionPump<T> extends IDisposable {
+export interface IAsyncActionPump extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    post(action: AsyncAction<T>): void;
+    post<T>(action: AsyncAction<T>): void;
 
     /**
      * Queue an action to be executed.
@@ -66,7 +66,7 @@ export interface IAsyncActionPump<T> extends IDisposable {
      * @returns a promise resolves to the actions return value.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    postAsync(action: AsyncAction<T>): Promise<T>;
+    postAsync<T>(action: AsyncAction<T>): Promise<T>;
 
     /**
      * Wait for all actions in the queue so far to complete.
@@ -76,13 +76,13 @@ export interface IAsyncActionPump<T> extends IDisposable {
     waitForAllActions(): Promise<void>;
 }
 
-export interface IActionPump<T> extends IDisposable {
+export interface IActionPump extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    post(action: Action<T>): void;
+    post<T>(action: Action<T>): void;
 
     /**
      * Queue an action to be executed.
@@ -90,7 +90,7 @@ export interface IActionPump<T> extends IDisposable {
      * @returns a promise resolves to the actions return value.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    postAsync(action: Action<T>): Promise<T>;
+    postAsync<T>(action: Action<T>): Promise<T>;
 
     /**
      * Wait for all actions in the queue so far to complete.
@@ -100,14 +100,14 @@ export interface IActionPump<T> extends IDisposable {
     waitForAllActions(): Promise<void>;
 }
 
-export interface ICancellableActionPump<T> extends IDisposable {
+export interface ICancellableActionPump extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
      * An {@link ICancellationToken} is passed to the action, which can be used to cancel the action.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    post(action: CancellableAction<T>): void;
+    post<T>(action: CancellableAction<T>): void;
 
     /**
      * Queue an action to be executed.
@@ -117,7 +117,7 @@ export interface ICancellableActionPump<T> extends IDisposable {
      * @throws throws {@link OperationCanceledException} if the action is cancelled.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    postAsync(action: CancellableAction<T>): Promise<T>;
+    postAsync<T>(action: CancellableAction<T>): Promise<T>;
 
     /**
      * Wait for all actions in the queue so far to complete.
@@ -138,14 +138,14 @@ export interface ICancellableActionPump<T> extends IDisposable {
     cancelQueuedAndRunningOperations(): void;
 }
 
-export interface ICancellableAsyncActionPump<T> extends IDisposable {
+export interface ICancellableAsyncActionPump extends IDisposable {
     /**
      * Queue an action to be executed.
      * Guaranteed to be executed in the order they are queued.
      * An {@link ICancellationToken} is passed to the action, which can be used to cancel the action.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    post(action: CancellableAsyncAction<T>): void;
+    post<T>(action: CancellableAsyncAction<T>): void;
 
     /**
      * Queue an action to be executed.
@@ -155,7 +155,7 @@ export interface ICancellableAsyncActionPump<T> extends IDisposable {
      * @throws throws {@link OperationCanceledException} if the action is cancelled.
      * @throws throws {@link ObjectDisposedException} if this pump is disposed.
      */
-    postAsync(action: CancellableAsyncAction<T>): Promise<T>;
+    postAsync<T>(action: CancellableAsyncAction<T>): Promise<T>;
 
     /**
      * Wait for all actions in the queue so far to complete.

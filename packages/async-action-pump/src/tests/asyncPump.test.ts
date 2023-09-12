@@ -4,8 +4,8 @@ import { AsyncActionPump } from '../queues/asyncActionPump';
 import { createCompletionTracker } from './utilities/completionTracker';
 import { LogMessage, Logger } from '../types';
 
-function createAsyncActionPump<T>(logger?: Logger) {
-    return AsyncActionPump.create<T>({
+function createAsyncActionPump(logger?: Logger) {
+    return AsyncActionPump.create({
         logger,
     });
 }
@@ -48,7 +48,7 @@ describe('Async Action Pump', () => {
     });
 
     it('should run return the queued async action values in order', async () => {
-        const pump = createAsyncActionPump<number>();
+        const pump = createAsyncActionPump();
         const arr: Promise<number>[] = [];
         const expectedArr: number[] = [];
 
@@ -178,7 +178,7 @@ describe('Async Action Pump', () => {
     it('should clean queue and throw on post when disposed', async () => {
         const [r, p] = createCompletionTracker();
 
-        const pump = createAsyncActionPump<void>() as AsyncActionPump<void>;
+        const pump = createAsyncActionPump() as AsyncActionPump;
         let resolver: (() => void) | undefined = undefined;
 
         pump.post(() => {

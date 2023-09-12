@@ -10,15 +10,15 @@ import {
 } from './cancellationTokenSourceFactory';
 import { CancellationTokenFacade } from './cancellationTokenFacade';
 
-export class CancellableAsyncActionPump<T>
+export class CancellableAsyncActionPump
     extends PumpBase<CancellableAsyncAction<void>, CancellableAsyncAction<void>>
-    implements ICancellableAsyncActionPump<T>
+    implements ICancellableAsyncActionPump
 {
     private readonly cancellationTokenSourceFactory: ICancellationTokenSourceFactory;
     private cancellationTokenSource: CancellationTokenSource;
 
-    public static create<T>(options?: CancellableAsyncActionPumpOptions): CancellableAsyncActionPump<T> {
-        return new CancellableAsyncActionPump<T>(options);
+    public static create(options?: CancellableAsyncActionPumpOptions): CancellableAsyncActionPump {
+        return new CancellableAsyncActionPump(options);
     }
 
     private constructor(options?: CancellableAsyncActionPumpOptions) {
@@ -32,7 +32,7 @@ export class CancellableAsyncActionPump<T>
         this.cancellationTokenSource = this.cancellationTokenSourceFactory.create();
     }
 
-    public post(cancellableAction: CancellableAsyncAction<T>) {
+    public post<T>(cancellableAction: CancellableAsyncAction<T>) {
         this.throwIfDisposed();
 
         this.enqueue(async (cancellationToken: ICancellationToken) => {

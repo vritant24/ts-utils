@@ -1,9 +1,9 @@
 import { PumpBase, defaultDequeueStrategy, defaultLogger } from '../pumpBase';
 import { Action, AsyncAction, AsyncActionPumpOptions, IActionPump } from '../types';
 
-export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>> implements IActionPump<T> {
-    public static create<T>(options?: AsyncActionPumpOptions): IActionPump<T> {
-        return new ActionPump<T>(options);
+export class ActionPump extends PumpBase<AsyncAction<void>, AsyncAction<void>> implements IActionPump {
+    public static create(options?: AsyncActionPumpOptions): IActionPump {
+        return new ActionPump(options);
     }
 
     private constructor(options?: AsyncActionPumpOptions) {
@@ -14,7 +14,7 @@ export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>
         });
     }
 
-    public post(action: Action<T>): void {
+    public post<T>(action: Action<T>): void {
         this.throwIfDisposed();
 
         this.enqueue(
@@ -30,7 +30,7 @@ export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>
         );
     }
 
-    public postAsync(action: Action<T>): Promise<T> {
+    public postAsync<T>(action: Action<T>): Promise<T> {
         this.throwIfDisposed();
 
         return new Promise<T>((resolvePost, rejectPost) => {
@@ -56,7 +56,7 @@ export class ActionPump<T> extends PumpBase<AsyncAction<void>, AsyncAction<void>
         return new Promise<void>((resolve) => {
             this.post(() => {
                 resolve();
-                return undefined as unknown as T;
+                return undefined;
             });
         });
     }
