@@ -17,6 +17,7 @@
   "license": "MIT",
   "files": [
     "artifacts/dist/lib",
+    "artifacts/dist/types",
     "./LICENSE",
     "./README.md"
   ],
