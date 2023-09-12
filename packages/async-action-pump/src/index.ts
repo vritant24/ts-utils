@@ -14,4 +14,5 @@ export type {
     CancellableAsyncAction,
     Action,
     Logger,
+    LogMessage,
 } from './types';
