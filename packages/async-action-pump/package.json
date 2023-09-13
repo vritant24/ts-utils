@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/vritant24/ts-utils"
   },
-  "version": "0.0.10",
+  "version": "0.0.11",
   "main": "./artifacts/dist/lib/index.js",
   "types": "./artifacts/dist/types/index.d.ts",
   "license": "MIT",
