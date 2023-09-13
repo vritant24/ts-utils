@@ -1,6 +1,7 @@
 import { Thenable } from './thenable';
 import { ICancellationTokenSourceFactory } from './cancellableQueues/cancellationTokenSourceFactory';
-import { ICancellationToken, IDisposable, ObjectDisposedException } from '@vritant/cancellation';
+import { ICancellationToken, ObjectDisposedException } from '@vritant/cancellation';
+import { IDisposable } from './disposable';
 
 /**
  * An async action that is supplied an {@link ICancellationToken}.

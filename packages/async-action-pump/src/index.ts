@@ -17,4 +17,4 @@ export type {
     Logger,
     LogMessage,
 } from './types';
-export type { IDisposable } from '@vritant/cancellation';
+export type { IDisposable } from './disposable';
